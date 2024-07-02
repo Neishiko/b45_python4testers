@@ -1,0 +1,53 @@
+# -*- coding: utf-8 -*-
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import unittest
+from contact import Contact
+
+
+class TestContactAdd(unittest.TestCase):
+    def setUp(self):
+        self.wd = webdriver.Firefox()
+        self.wd.implicitly_wait(30)
+
+    def test_contact_add(self):
+        wd = self.wd
+        self.open_homepage(wd)
+        self.login(wd, username="admin", password="secret")
+        self.open_contacts_create_page(wd)
+        self.create_contact(wd, Contact(firstname="John", lastname="Ceena", mobile="12356347856", email="john@ceena.ee"))
+        self.return_to_contacts_page(wd)
+        self.logout(wd)
+
+    def logout(self, wd):
+        wd.find_element(By.LINK_TEXT, "Logout").click()
+
+    def return_to_contacts_page(self, wd):
+        wd.find_element(By.LINK_TEXT, "home").click()
+
+    def create_contact(self, wd, Contact):
+        # create contact
+        wd.find_element(By.NAME, "firstname").send_keys(Contact.firstname)
+        wd.find_element(By.NAME, "lastname").send_keys(Contact.lastname)
+        wd.find_element(By.NAME, "mobile").send_keys(Contact.mobile)
+        wd.find_element(By.NAME, "email").send_keys(Contact.email)
+        # submit contact creation
+        wd.find_element(By.NAME, "submit").click()
+
+    def open_contacts_create_page(self, wd):
+        wd.find_element(By.LINK_TEXT, "add new").click()
+
+    def login(self, wd, username, password):
+        wd.find_element(By.NAME, "user").send_keys(username)
+        wd.find_element(By.NAME, "pass").send_keys(password)
+        wd.find_element(By.XPATH, "//input[@value='Login']").click()
+
+    def open_homepage(self, wd):
+        wd.get("http://localhost/addressbook/")
+
+    def tearDown(self):
+        self.wd.quit()
+
+
+if __name__ == "__main__":
+    unittest.main()
