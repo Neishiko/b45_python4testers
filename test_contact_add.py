@@ -25,12 +25,12 @@ class TestContactAdd(unittest.TestCase):
     def return_to_contacts_page(self, wd):
         wd.find_element(By.LINK_TEXT, "home").click()
 
-    def create_contact(self, wd, Contact):
+    def create_contact(self, wd, contact):
         # create contact
-        wd.find_element(By.NAME, "firstname").send_keys(Contact.firstname)
-        wd.find_element(By.NAME, "lastname").send_keys(Contact.lastname)
-        wd.find_element(By.NAME, "mobile").send_keys(Contact.mobile)
-        wd.find_element(By.NAME, "email").send_keys(Contact.email)
+        wd.find_element(By.NAME, "firstname").send_keys(contact.firstname)
+        wd.find_element(By.NAME, "lastname").send_keys(contact.lastname)
+        wd.find_element(By.NAME, "mobile").send_keys(contact.mobile)
+        wd.find_element(By.NAME, "email").send_keys(contact.email)
         # submit contact creation
         wd.find_element(By.NAME, "submit").click()
 
