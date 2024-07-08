@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 class ContactHelper:
 
     def __init__(self, app):
+        self.accept_next_alert = None
         self.app = app
 
     def open_contacts_create_page(self):
@@ -21,6 +22,24 @@ class ContactHelper:
         # submit contact creation
         wd.find_element(By.NAME, "submit").click()
         self.return_to_contacts_page()
+
+    def first_contact_delete(self):
+        wd = self.app.wd
+        self.accept_next_alert = True
+        wd.find_element(By.NAME, "selected[]").click()
+        wd.find_element(By.XPATH, "//input[@value='Delete']").click()
+        self.close_alert()
+        self.return_to_contacts_page()
+
+    def close_alert(self):
+        try:
+            alert = self.app.wd.switch_to_alert()
+            if self.accept_next_alert:
+                alert.accept()
+            else:
+                alert.dismiss()
+        finally:
+            self.accept_next_alert = True
 
     def return_to_contacts_page(self):
         wd = self.app.wd
