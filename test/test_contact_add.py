@@ -12,6 +12,6 @@ def app(request):
 
 
 def test_contact_add(app):
-    app.login(username="admin", password="secret")
+    app.session.login(username="admin", password="secret")
     app.create_contact(Contact(firstname="John", lastname="Ceena", mobile="12356347856", email="john@ceena.ee"))
-    app.logout()
+    app.session.logout()
