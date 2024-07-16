@@ -31,6 +31,21 @@ class ContactHelper:
         self.close_alert()
         self.return_to_contacts_page()
 
+    def first_contact_modify(self, contact):
+        wd = self.app.wd
+        wd.find_element(By.NAME, "selected[]").click()
+        wd.find_element(By.XPATH, "//img[@alt='Edit']").click()
+        wd.find_element(By.NAME, "firstname").clear()
+        wd.find_element(By.NAME, "firstname").send_keys(contact.firstname)
+        wd.find_element(By.NAME, "lastname").clear()
+        wd.find_element(By.NAME, "lastname").send_keys(contact.lastname)
+        wd.find_element(By.NAME, "mobile").clear()
+        wd.find_element(By.NAME, "mobile").send_keys(contact.mobile)
+        wd.find_element(By.NAME, "email").clear()
+        wd.find_element(By.NAME, "email").send_keys(contact.email)
+        wd.find_element(By.NAME, "update").click()
+        self.return_to_contacts_page()
+
     def close_alert(self):
         try:
             alert = self.app.wd.switch_to_alert()
