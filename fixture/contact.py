@@ -21,7 +21,6 @@ class ContactHelper:
         wd.find_element(By.NAME, "email").send_keys(contact.email)
         # submit contact creation
         wd.find_element(By.NAME, "submit").click()
-        self.return_to_contacts_page()
 
     def first_contact_delete(self):
         wd = self.app.wd
@@ -29,7 +28,6 @@ class ContactHelper:
         wd.find_element(By.NAME, "selected[]").click()
         wd.find_element(By.XPATH, "//input[@value='Delete']").click()
         self.close_alert()
-        self.return_to_contacts_page()
 
     def first_contact_modify(self, contact):
         wd = self.app.wd
@@ -44,7 +42,6 @@ class ContactHelper:
         wd.find_element(By.NAME, "email").clear()
         wd.find_element(By.NAME, "email").send_keys(contact.email)
         wd.find_element(By.NAME, "update").click()
-        self.return_to_contacts_page()
 
     def close_alert(self):
         try:
@@ -55,7 +52,3 @@ class ContactHelper:
                 alert.dismiss()
         finally:
             self.accept_next_alert = True
-
-    def return_to_contacts_page(self):
-        wd = self.app.wd
-        wd.find_element(By.LINK_TEXT, "home").click()
