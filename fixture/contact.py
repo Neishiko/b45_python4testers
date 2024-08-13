@@ -9,7 +9,9 @@ class ContactHelper:
 
     def open_contacts_page(self):
         wd = self.app.wd
-        wd.find_element(By.LINK_TEXT, "home").click()
+        if not (wd.current_url.endswith("addressbook/") and len(
+                wd.find_elements(By.XPATH, "//input[@value='Send e-Mail']")) > 0):
+            wd.find_element(By.LINK_TEXT, "home").click()
 
     def open_contacts_create_page(self):
         wd = self.app.wd
@@ -25,7 +27,7 @@ class ContactHelper:
 
     def first_contact_delete(self):
         wd = self.app.wd
-        wd.find_element(By.LINK_TEXT, "home").click()
+        self.open_contacts_page()
         wd.find_element(By.NAME, "selected[]").click()
         wd.find_element(By.XPATH, "//input[@value='Delete']").click()
         self.accept_next_alert = True

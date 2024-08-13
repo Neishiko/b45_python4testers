@@ -16,7 +16,6 @@ class SessionHelper:
     def logout(self):
         wd = self.app.wd
         wd.find_element(By.LINK_TEXT, "Logout").click()
-        wd.find_element(By.ID, "LoginForm")
 
     def ensure_logout(self):
         wd = self.app.wd
