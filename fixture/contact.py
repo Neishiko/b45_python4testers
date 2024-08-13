@@ -15,33 +15,40 @@ class ContactHelper:
         wd = self.app.wd
         self.open_contacts_create_page()
         # create contact
-        wd.find_element(By.NAME, "firstname").send_keys(contact.firstname)
-        wd.find_element(By.NAME, "lastname").send_keys(contact.lastname)
-        wd.find_element(By.NAME, "mobile").send_keys(contact.mobile)
-        wd.find_element(By.NAME, "email").send_keys(contact.email)
+        self.fill_contact_form(contact)
         # submit contact creation
         wd.find_element(By.NAME, "submit").click()
 
     def first_contact_delete(self):
         wd = self.app.wd
-        self.accept_next_alert = True
+        wd.find_element(By.LINK_TEXT, "home").click()
         wd.find_element(By.NAME, "selected[]").click()
         wd.find_element(By.XPATH, "//input[@value='Delete']").click()
+        self.accept_next_alert = True
         self.close_alert()
+        wd.find_element(By.LINK_TEXT, "home page").click()
 
     def first_contact_modify(self, contact):
         wd = self.app.wd
         wd.find_element(By.NAME, "selected[]").click()
         wd.find_element(By.XPATH, "//img[@alt='Edit']").click()
-        wd.find_element(By.NAME, "firstname").clear()
-        wd.find_element(By.NAME, "firstname").send_keys(contact.firstname)
-        wd.find_element(By.NAME, "lastname").clear()
-        wd.find_element(By.NAME, "lastname").send_keys(contact.lastname)
-        wd.find_element(By.NAME, "mobile").clear()
-        wd.find_element(By.NAME, "mobile").send_keys(contact.mobile)
-        wd.find_element(By.NAME, "email").clear()
-        wd.find_element(By.NAME, "email").send_keys(contact.email)
+        self.fill_contact_form(contact)
         wd.find_element(By.NAME, "update").click()
+        wd.find_element(By.LINK_TEXT, "home page").click()
+
+    def fill_contact_form(self, contact):
+        wd = self.app.wd
+        self.change_field_value("firstname", contact.firstname)
+        self.change_field_value("lastname", contact.lastname)
+        self.change_field_value("mobile", contact.mobile)
+        self.change_field_value("email", contact.email)
+
+    def change_field_value(self, field_name, text):
+        wd = self.app.wd
+        if text is not None:
+            wd.find_element(By.NAME, field_name).click()
+            wd.find_element(By.NAME, field_name).clear()
+            wd.find_element(By.NAME, field_name).send_keys(text)
 
     def close_alert(self):
         try:
