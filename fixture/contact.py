@@ -7,6 +7,10 @@ class ContactHelper:
         self.accept_next_alert = None
         self.app = app
 
+    def open_contacts_page(self):
+        wd = self.app.wd
+        wd.find_element(By.LINK_TEXT, "home").click()
+
     def open_contacts_create_page(self):
         wd = self.app.wd
         wd.find_element(By.LINK_TEXT, "add new").click()
@@ -26,10 +30,11 @@ class ContactHelper:
         wd.find_element(By.XPATH, "//input[@value='Delete']").click()
         self.accept_next_alert = True
         self.close_alert()
-        wd.find_element(By.LINK_TEXT, "home page").click()
+        wd.find_element(By.LINK_TEXT, "home").click()
 
     def first_contact_modify(self, contact):
         wd = self.app.wd
+        self.open_contacts_page()
         wd.find_element(By.NAME, "selected[]").click()
         wd.find_element(By.XPATH, "//img[@alt='Edit']").click()
         self.fill_contact_form(contact)
@@ -59,3 +64,8 @@ class ContactHelper:
                 alert.dismiss()
         finally:
             self.accept_next_alert = True
+
+    def count(self):
+        wd = self.app.wd
+        self.open_contacts_page()
+        return len(wd.find_elements(By.NAME, "selected[]"))
